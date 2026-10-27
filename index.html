@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="당신의 이름으로 시작하는 따뜻한 환영 인사.">
+  <title>반가워요 — 당신을 위한 환영 인사</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f6f5f0;color:#243e33;font-family:Arial,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;min-height:100svh;display:flex;flex-direction:column}header{padding:32px 6%;display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;letter-spacing:-.7px}.logo{width:28px;height:28px;background:#315943;border-radius:50% 50% 12% 50%;display:inline-block;transform:rotate(-25deg)}main{flex:1;display:grid;place-items:center;padding:30px 22px 70px}.card{text-align:center;width:min(100%,520px)}.art{width:122px;height:122px;border-radius:50%;background:#e5ebdf;margin:0 auto 32px;display:grid;place-items:center;position:relative}.flower{font-size:65px;line-height:1;filter:grayscale(.15)}.spark{position:absolute;right:-5px;top:10px;color:#9aab83;font-size:26px}.eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;color:#7b8b75;margin:0 0 20px}h1{font-size:clamp(34px,6vw,46px);letter-spacing:-2.2px;line-height:1.35;margin:0 0 17px;font-weight:600;overflow-wrap:anywhere}.intro{color:#7b8279;font-size:15px;line-height:1.9;margin:0 0 39px}form{background:#fff;padding:27px;text-align:left;border:1px solid #e5e7dd;border-radius:18px;box-shadow:0 10px 35px #263b2d05}label{display:block;font-size:13px;font-weight:600;margin-bottom:11px}input{font:inherit;width:100%;border:1px solid #dce1d6;border-radius:9px;padding:16px;background:#fcfcf9;color:#243e33;outline:none}input:focus{border-color:#315943;box-shadow:0 0 0 3px #31594318}input::placeholder{color:#a5aaa0}button{width:100%;margin-top:13px;padding:16px;border:0;border-radius:9px;background:#315943;color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:center;gap:16px}button:hover{background:#244631}button:focus-visible{outline:3px solid #9cab83;outline-offset:3px}.note{font-size:12px;color:#969d90;margin:22px 0 0}.error{font-size:12px;color:#a14b37;margin:10px 0 0}.footer{padding:24px;text-align:center;font-size:11px;letter-spacing:1px;color:#9ba291}.greeting{color:#315943}.hidden{display:none}@media(max-width:480px){header{padding:24px}main{padding-bottom:35px}form{padding:22px}.art{margin-bottom:25px}.intro{margin-bottom:28px}}@media(prefers-reduced-motion:no-preference){.card{animation:appear .6s ease-out}@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}}
+  </style>
+</head>
+<body>
+  <header><span class="logo" aria-hidden="true"></span>반가워요</header>
+  <main>
+    <section class="card" aria-labelledby="title">
+      <div class="art" aria-hidden="true"><span class="flower">🌼</span><span class="spark">✦</span></div>
+      <p class="eyebrow">A LITTLE HELLO, JUST FOR YOU</p>
+      <div aria-live="polite" aria-atomic="true">
+        <h1 id="title">당신을 만나 반가워요.</h1>
+        <p class="intro" id="intro">작은 인사로 시작하는 좋은 하루.<br>어떤 이름으로 불러드릴까요?</p>
+      </div>
+      <form id="name-form" novalidate>
+        <label for="name">이름</label>
+        <input id="name" name="name" placeholder="이름을 입력해주세요" autocomplete="given-name" maxlength="50" required aria-describedby="error">
+        <p id="error" class="error hidden" role="alert">이름을 입력해주세요.</p>
+        <button type="submit"><span id="button-label">인사 나누기</span><span aria-hidden="true">→</span></button>
+      </form>
+      <p class="note">입력한 이름은 저장되지 않아요.</p>
+    </section>
+  </main>
+  <footer class="footer">당신의 오늘에, 따뜻한 시작을.</footer>
+  <script>
+    const form = document.getElementById('name-form');
+    const input = document.getElementById('name');
+    const error = document.getElementById('error');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = input.value.trim();
+      if (!name) {
+        error.classList.remove('hidden');
+        input.setAttribute('aria-invalid', 'true');
+        input.focus();
+        return;
+      }
+      error.classList.add('hidden');
+      input.removeAttribute('aria-invalid');
+      document.getElementById('title').textContent = `${name} 님 어서오세요`;
+      document.getElementById('intro').textContent = '함께하게 되어 기뻐요. 오늘도 좋은 하루 보내세요.';
+      document.getElementById('button-label').textContent = '다시 인사하기';
+    });
+    input.addEventListener('input', () => {
+      error.classList.add('hidden');
+      input.removeAttribute('aria-invalid');
+    });
+  </script>
+</body>
+</html>
